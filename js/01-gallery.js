@@ -24,10 +24,9 @@ function makeGalleryMarkup(pictures) {
     .join('');
 }
 
-let clickedPicture = '';
 function makeInstance(e) {
   e.preventDefault();
-  clickedPicture = e.target.dataset.source;
+  let clickedPicture = e.target.dataset.source;
 
   const instance = basicLightbox.create(`
       <img src="${clickedPicture}" width="800" height="600">
