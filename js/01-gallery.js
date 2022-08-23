@@ -24,18 +24,24 @@ function makeGalleryMarkup(pictures) {
     .join('');
 }
 
-function makeInstance(e) {
+function makeModal(e) {
   e.preventDefault();
-  let clickedPicture = e.target.dataset.source;
+  let elementTagName = e.target.nodeName;
+  let selectedPicture = e.target.dataset.source;
 
+  toggleInstanceModal(selectedPicture, elementTagName);
+}
+
+function toggleInstanceModal(selectedPicture, elementTagName) {
   const instance = basicLightbox.create(`
-      <img src="${clickedPicture}" width="800" height="600">
+      <img src="${selectedPicture}" width="800" height="600">
   `);
   instance.show();
 
-  if (e.target.nodeName !== 'IMG') {
+  if (elementTagName !== 'IMG') {
     return;
   } else {
+    console.log(elementTagName);
     document.addEventListener('keydown', e => {
       if (e.code === 'Escape') {
         instance.close();
@@ -44,5 +50,5 @@ function makeInstance(e) {
   }
 }
 
-galleryContainer.addEventListener('click', makeInstance);
+galleryContainer.addEventListener('click', makeModal);
 console.log(galleryItems);
