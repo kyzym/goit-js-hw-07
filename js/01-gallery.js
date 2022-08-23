@@ -44,8 +44,8 @@ function closeModalByEsc(elementTagName) {
 }
 
 function escBtnHandler(e) {
+  galleryContainer.removeEventListener('keydown', escBtnHandler);
   if (e.code === 'Escape') {
-    galleryContainer.removeEventListener('keydown', escBtnHandler);
     instance.close();
   }
 }
