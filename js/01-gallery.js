@@ -27,9 +27,21 @@ function openInstanceModal(e) {
   let elementTagName = e.target.nodeName;
   let selectedPicture = e.target.dataset.source;
 
-  instance = basicLightbox.create(`
+  instance = basicLightbox.create(
+    `
       <img src="${selectedPicture}" width="800" height="600">
-  `);
+  `,
+    {
+      onShow: instance => {
+        console.log('add listener ');
+        galleryContainer.addEventListener('keydown', escBtnHandler);
+      },
+      onClose: instance => {
+        console.log('remove listener ');
+        galleryContainer.removeEventListener('keydown', escBtnHandler);
+      },
+    }
+  );
   instance.show();
   closeModalByEsc(elementTagName);
 }
@@ -38,17 +50,14 @@ function closeModalByEsc(elementTagName) {
   if (elementTagName !== 'IMG') {
     console.log('"good shot"');
     return;
-  } else {
-    galleryContainer.addEventListener('keydown', escBtnHandler);
   }
 }
 
 function escBtnHandler(e) {
   if (e.code === 'Escape') {
     instance.close();
-    galleryContainer.removeEventListener('keydown', escBtnHandler);
   }
 }
 
 galleryContainer.addEventListener('click', openInstanceModal);
-console.log(galleryItems);
+// console.log(galleryItems);
