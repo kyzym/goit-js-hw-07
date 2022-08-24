@@ -2,8 +2,8 @@ import { galleryItems } from './gallery-items.js';
 
 const galleryContainer = document.querySelector('.gallery');
 const galleryMarkup = makeGalleryMarkup(galleryItems);
-let instance;
 galleryContainer.insertAdjacentHTML('beforeend', galleryMarkup);
+galleryContainer.addEventListener('click', openInstanceModal);
 
 function makeGalleryMarkup(pictures) {
   return pictures
@@ -22,36 +22,21 @@ function makeGalleryMarkup(pictures) {
     .join('');
 }
 
-function openInstanceModal(e) {
-  e.preventDefault();
-  let elementTagName = e.target.nodeName;
-  let selectedPicture = e.target.dataset.source;
-
-  instance = basicLightbox.create(
-    `
-      <img src="${selectedPicture}" width="800" height="600">
+const instance = basicLightbox.create(
+  `
+      <img src="" />
   `,
-    {
-      onShow: instance => {
-        console.log('add listener ');
-        document.addEventListener('keydown', escBtnHandler);
-      },
-      onClose: instance => {
-        console.log('remove listener ');
-        document.removeEventListener('keydown', escBtnHandler);
-      },
-    }
-  );
-  instance.show();
-  closeModalByEsc(elementTagName);
-}
-
-function closeModalByEsc(elementTagName) {
-  if (elementTagName !== 'IMG') {
-    console.log('"good shot"');
-    return;
+  {
+    onShow: () => {
+      console.log('add listener ');
+      document.addEventListener('keydown', escBtnHandler);
+    },
+    onClose: () => {
+      console.log('remove listener ');
+      document.removeEventListener('keydown', escBtnHandler);
+    },
   }
-}
+);
 
 function escBtnHandler(e) {
   if (e.code === 'Escape') {
@@ -59,4 +44,8 @@ function escBtnHandler(e) {
   }
 }
 
-galleryContainer.addEventListener('click', openInstanceModal);
+function openInstanceModal(e) {
+  e.preventDefault();
+  instance.element().querySelector('img').src = e.target.dataset.source;
+  instance.show();
+}
