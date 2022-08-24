@@ -34,11 +34,11 @@ function openInstanceModal(e) {
     {
       onShow: instance => {
         console.log('add listener ');
-        galleryContainer.addEventListener('keydown', escBtnHandler);
+        document.addEventListener('keydown', escBtnHandler);
       },
       onClose: instance => {
         console.log('remove listener ');
-        galleryContainer.removeEventListener('keydown', escBtnHandler);
+        document.removeEventListener('keydown', escBtnHandler);
       },
     }
   );
@@ -60,4 +60,3 @@ function escBtnHandler(e) {
 }
 
 galleryContainer.addEventListener('click', openInstanceModal);
-// console.log(galleryItems);
